@@ -2,7 +2,7 @@ name: flutter_gql_acsys
 description: "Flutter interface to the ACSys GraphQL API"
 version: 1.0.0
 publish_to: none
-homepage:
+homepage: https://github.com/fermi-ad/flutter-gql-acsys
 
 environment:
   sdk: ^3.9.2
@@ -16,7 +16,9 @@ dependencies:
       url: https://github.com/fermi-ad/flutter-controls-auth.git
       ref: main
   dart_gql_acsys:
-    path: ../dart-gql-acsys
+    git:
+      url: https://github.com/fermi-ad/dart-gql-acsys.git
+      ref: main
 
 dev_dependencies:
   flutter_test:
