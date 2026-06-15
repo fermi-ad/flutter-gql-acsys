@@ -81,8 +81,7 @@ final class ACSysProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => _ACSysProviderIW(
-    service:
-        service ?? ACSysService(port: port, jwt: AuthService.getJwt(context)),
+    service: service ?? ACSysService(jwt: AuthService.getJwt(context)),
     child: child,
   );
 }
