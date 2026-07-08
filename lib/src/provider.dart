@@ -22,7 +22,7 @@ final class ACSys {
 /// of this widget near the top of its tree so it doesn't get rebuilt. With
 /// this in the tree, other widgets can use the API by calling [ACSys.api()]
 /// to get an [ACSysServiceAPI] object which implements the API.
-final class ACSysProvider extends StatelessWidget {
+final class ACSysProvider extends StatefulWidget {
   final Widget child;
   final ACSysServiceAPI? service;
 
@@ -70,9 +70,20 @@ final class ACSysProvider extends StatelessWidget {
   const ACSysProvider._({this.service, required this.child, super.key});
 
   @override
+  State<ACSysProvider> createState() => _ACSysProviderState();
+}
+
+class _ACSysProviderState extends State<ACSysProvider> {
+  @override
+  void dispose() {
+    widget.service?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => _ACSysProviderIW(
-    service: service ?? ACSysService(jwt: AuthService.getJwt(context)),
-    child: child,
+    service: widget.service ?? ACSysService(jwt: AuthService.getJwt(context)),
+    child: widget.child,
   );
 }
 
