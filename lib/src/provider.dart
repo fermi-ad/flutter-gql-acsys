@@ -22,10 +22,9 @@ final class ACSys {
 /// of this widget near the top of its tree so it doesn't get rebuilt. With
 /// this in the tree, other widgets can use the API by calling [ACSys.api()]
 /// to get an [ACSysServiceAPI] object which implements the API.
-final class ACSysProvider extends StatelessWidget {
+final class ACSysProvider extends StatefulWidget {
   final Widget child;
   final ACSysServiceAPI? service;
-  final int? port;
 
   /// A factory function that creates a [ACSysProvider] widget.
   ///
@@ -56,33 +55,35 @@ final class ACSysProvider extends StatelessWidget {
     required int port,
     Key? key,
   }) =>
-      ({required Widget child}) =>
-          ACSysProvider._(port: port, key: key, child: child);
+      ({required Widget child}) => ACSysProvider._(key: key, child: child);
 
   // Creates the widget.
   //
   // - [child] is the widget subtree that gets added to the tree below this
   //   widget.
   // - [key] is an optional identifier for the widget.
-  // - [port] is an optional port number to use. If omitted, the official,
-  //   production service will be used. This parameter is only used if the
-  //   [service] parameter is omitted.
   // - [service] is an optional obect which implements the [ACSysServiceAPI]
   //   interface. If this option is omitted, the widget will use an
   //   implementation that communicates over the network to the offcial
   //   control system API. This option is mainly to mock-up a service to
   //   use in unit tests.
-  const ACSysProvider._({
-    this.service,
-    this.port,
-    required this.child,
-    super.key,
-  });
+  const ACSysProvider._({this.service, required this.child, super.key});
+
+  @override
+  State<ACSysProvider> createState() => _ACSysProviderState();
+}
+
+class _ACSysProviderState extends State<ACSysProvider> {
+  @override
+  void dispose() {
+    widget.service?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => _ACSysProviderIW(
-    service: service ?? ACSysService(jwt: AuthService.getJwt(context)),
-    child: child,
+    service: widget.service ?? ACSysService(jwt: AuthService.getJwt(context)),
+    child: widget.child,
   );
 }
 
