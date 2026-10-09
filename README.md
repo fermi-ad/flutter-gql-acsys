@@ -28,7 +28,8 @@ dependencies:
   flutter_gql_acsys:
     git:
       url: https://github.com/fermi-ad/flutter-gql-acsys.git
-      ref: main
+      tag_pattern: v{{version}}
+    version: ^1.1.0
 ```
 
 Then fetch the dependency:
